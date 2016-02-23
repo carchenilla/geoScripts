@@ -28,30 +28,9 @@ getPairs <- function(P){
 #Devuelve una matriz con los puntos de la envolvente convexa (por filas)
 
 getConvexHull <- function(P){
-  pairs = getPairs(P)     #generar parejas de puntos
-  n = length(pairs)/4
-  hull = matrix(0,nrow=0,ncol=2,byrow=TRUE)    #reservar espacio para matriz final
-  for (k in 1:n){
-    a = c(pairs[k,1],pairs[k,2])   #cogemos una pareja de puntos
-    b = c(pairs[k,3],pairs[k,4])
-    flag = TRUE       #flag para marcar si pertenecen a la envolvente
-    i = 1
-    while ((i<=(length(P)/2))&&flag){          #comprobamos si todos los puntos estan a la dcha de la pareja
-      thisPoint = c(P[(i-1)*2+1],P[(i-1)*2+2])
-      if (checkPoint(thisPoint,a,b)){     #se comprueban todos los puntos de P menos los propios de la pareja
-        if(!(checkPos(thisPoint,a,b))){    #en cuanto uno de ellos no esta a la dcha salimos del bucle
-          flag=FALSE                       #y continuamos con la siguiente pareja
-        } 
-      }
-      i=i+1
-    }
-    if (flag){    #si todos los puntos estaban a la derecha, se anaden los 2 puntos a la matriz final
-      hull = rbind(hull,a,b)
-    }
-  }
-  return (unique(matrix(hull, nrow=(length(hull)/2), ncol=2, byrow=FALSE)))
-  #rehacemos la matriz para regenerar los indices (al hacer rbind las filas no se anaden con numeros)
-  #y la devolvemos pero solo con sus filas unicas, para eliminar repeticiones de puntos
+
+    #FALTA ESTA FUNCION, QUE ES LA TOCHA
+  
 }
 
 
