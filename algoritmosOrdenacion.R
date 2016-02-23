@@ -62,6 +62,6 @@ realMerge= function(v){
     mergeSort(v1,v2)
   }
   else{
-    v
+    return(v)
   }
 }
