@@ -1,3 +1,5 @@
+#PRACTICA 4 GEOMETRIA COMPUTACIONAL
+
 #Funcion para calcular todas las parejas de puntos (variaciones sin repeticion)
 #Recibe un numeric con las coordenadas de los puntos
 #Devuelve una matriz con tantas filas como parejas haya y con 4 columnas, para almacenar las coordenadas
