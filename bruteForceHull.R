@@ -142,7 +142,7 @@ plotFinalPoints <- function(M){
 }
 
 
-#Metodo auxiliar para plotFinal points, busca los puntos deseados en la matriz de aristas
+#Metodo auxiliar para plotFinalPoints, busca los puntos deseados en la matriz de aristas
 findPoint <- function(p,M){ 
   i=1
   while(!((M[i,1]==p[1])&&(M[i,2]==p[2]))){
