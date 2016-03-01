@@ -28,10 +28,9 @@ getConvexHull <- function(P){
       hull = rbind(hull,c(a,b))
     }
   }
-  finalMatrix <- matrix(hull, nrow=(length(hull)/4), ncol=4, byrow=FALSE)
-  plotFinalPoints(finalMatrix)
-  #rehacemos la matriz para regenerar los indices (al hacer rbind las filas no se anaden con numeros)
-  #y la devolvemos pero solo con sus filas unicas, para eliminar repeticiones de puntos
+  finalMatrix <- matrix(hull, nrow=(length(hull)/4), ncol=4, byrow=FALSE)    #rehacemos la matriz para regenera los indices (al hacer rbind las filas no se anaden con numeros)
+  return(plotFinalPoints(finalMatrix))    #Se la pasamos el metodo final para que pinte los puntos y las ordene
+
 }
 
 
@@ -84,8 +83,20 @@ rightPos<-function(p,a,b){
   A <- matrix(c(b[1]-a[1],b[2]-a[2],
                 p[1]-a[1],p[2]-a[2]),nrow=2,ncol=2,byrow = TRUE)
   n <- det(A)
-  if (n<0){
+  if (n<0){     #Si es negativo está a la derecha
     return(TRUE)
+  }
+  else if(n==0){    #Si está en la recta y concretamente en el segmento AB, se desecha
+    d1=a[1]-p[1]
+    d2=b[1]-p[1]
+    d3=a[2]-p[2]
+    d4=b[2]-p[2]
+    if ((sign(d1)!=sign(d2))||(sign(d3)!=sign(d4))){
+      return(FALSE)
+    }
+    else{
+      return(TRUE)
+    }
   }
   else{
     return(FALSE)
@@ -93,40 +104,49 @@ rightPos<-function(p,a,b){
 }
 
 
+
+#Funcion para preparar el plot y pintar los puntos iniciales que se pasan
+#Recibe el numeric con los puntos P
+#No devuelve nada
+
 plotInitialPoints <- function(P){
-    minx = min(P[seq(from=1, to=length(P), by=2)])
+    minx = min(P[seq(from=1, to=length(P), by=2)])   #Calculo de maximos y minimos para que entre todo en el plot
     miny = min(P[seq(from=2, to=length(P), by=2)])
     maxx = max(P[seq(from=1, to=length(P), by=2)])
     maxy = max(P[seq(from=2, to=length(P), by=2)])
     plot(c(minx-1,maxx+1),c(miny-1,maxy+1))
     for (i in seq(from=1, to=length(P), by=2)){
-      text(P[i],P[i+1],'o')
+      text(P[i],P[i+1],'o')   #Plotear los puntos en el cuadro
     }
 }
 
+
+
+#Funcion para hacer el plot final y reordenar las aristas obtenidas por fuerza bruta
+#Recibe la matriz con las aristas de la envolvente
+#Devuelve un numeric con las coordenadas de los puntos de la envolvente, ordenados como aristas
+
 plotFinalPoints <- function(M){
-  print(M)
   finalList <- c(M[1,1],M[1,2],M[1,3],M[1,4])
-  print(finalList)
   cont = length(M)/4-1
-  while (cont>0){
+  while (cont>0){     #Va buscando puntos en la matriz y va añadiendo el otro extremo de la arista, para concatenarlo a una lista
     p <- c(finalList[length(finalList)-1],finalList[length(finalList)])
-    print(p)
     nextP <- findPoint(p,M)
     finalList <- c(finalList,nextP)
-    print(finalList)
     cont = cont-1
   }
-  xCoord = finalList[seq(from=1, to=length(P)-2, by=2)]
-  yCoord = finalList[seq(from=2, to=length(P)-2, by=2)]
+  xCoord = finalList[seq(from=1, to=length(finalList)-2, by=2)] #Una vez terminado, separamos coordenadas en X e Y para dibujar el poligono
+  yCoord = finalList[seq(from=2, to=length(finalList)-2, by=2)]
   polygon(xCoord,yCoord,lty=1,lwd=2, border="blue")
+  return(finalList[(seq(from=1,to=length(finalList)-2,by=1))]) #Devolvemos la lista sin las ultimas 2 coordenadas, ya que están repetidas
 }
 
-findPoint <- function(p,M){
+
+#Metodo auxiliar para plotFinal points, busca los puntos deseados en la matriz de aristas
+findPoint <- function(p,M){ 
   i=1
-  while((M[i,1]!=p[1])&&(M[i,2]!=p[2])){
+  while(!((M[i,1]==p[1])&&(M[i,2]==p[2]))){
     i=i+1
   }
-  print(i)
   return(c(M[i,3],M[i,4]))
 }
