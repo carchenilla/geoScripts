@@ -6,9 +6,10 @@
 #Devuelve una matriz con los puntos de la envolvente convexa (por filas)
 
 getConvexHull <- function(P){
+  plotInitialPoints(P);
   pairs = getPairs(P)     #generar parejas de puntos
   n = length(pairs)/4
-  hull = matrix(0,nrow=0,ncol=2,byrow=TRUE)    #reservar espacio para matriz final
+  hull = matrix(0,nrow=0,ncol=4,byrow=TRUE)    #reservar espacio para matriz final
   for (k in 1:n){
     a = c(pairs[k,1],pairs[k,2])   #cogemos una pareja de puntos
     b = c(pairs[k,3],pairs[k,4])
@@ -24,10 +25,11 @@ getConvexHull <- function(P){
       i=i+1
     }
     if (flag){    #si todos los puntos estaban a la derecha, se anaden los 2 puntos a la matriz final
-      hull = rbind(hull,a,b)
+      hull = rbind(hull,c(a,b))
     }
   }
-  return (unique(matrix(hull, nrow=(length(hull)/2), ncol=2, byrow=FALSE)))
+  finalMatrix <- matrix(hull, nrow=(length(hull)/4), ncol=4, byrow=FALSE)
+  plotFinalPoints(finalMatrix)
   #rehacemos la matriz para regenerar los indices (al hacer rbind las filas no se anaden con numeros)
   #y la devolvemos pero solo con sus filas unicas, para eliminar repeticiones de puntos
 }
@@ -88,4 +90,43 @@ rightPos<-function(p,a,b){
   else{
     return(FALSE)
   }
+}
+
+
+plotInitialPoints <- function(P){
+    minx = min(P[seq(from=1, to=length(P), by=2)])
+    miny = min(P[seq(from=2, to=length(P), by=2)])
+    maxx = max(P[seq(from=1, to=length(P), by=2)])
+    maxy = max(P[seq(from=2, to=length(P), by=2)])
+    plot(c(minx-1,maxx+1),c(miny-1,maxy+1))
+    for (i in seq(from=1, to=length(P), by=2)){
+      text(P[i],P[i+1],'o')
+    }
+}
+
+plotFinalPoints <- function(M){
+  print(M)
+  finalList <- c(M[1,1],M[1,2],M[1,3],M[1,4])
+  print(finalList)
+  cont = length(M)/4-1
+  while (cont>0){
+    p <- c(finalList[length(finalList)-1],finalList[length(finalList)])
+    print(p)
+    nextP <- findPoint(p,M)
+    finalList <- c(finalList,nextP)
+    print(finalList)
+    cont = cont-1
+  }
+  xCoord = finalList[seq(from=1, to=length(P)-2, by=2)]
+  yCoord = finalList[seq(from=2, to=length(P)-2, by=2)]
+  polygon(xCoord,yCoord,lty=1,lwd=2, border="blue")
+}
+
+findPoint <- function(p,M){
+  i=1
+  while((M[i,1]!=p[1])&&(M[i,2]!=p[2])){
+    i=i+1
+  }
+  print(i)
+  return(c(M[i,3],M[i,4]))
 }
