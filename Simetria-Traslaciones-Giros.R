@@ -78,7 +78,7 @@ getSimetryAndPlot <-function(p,r){
   polygon(c(minX-1,maxX+1),r(c(minX-1,maxX+1)),lty=1,lwd=2, border="orange")
   text(p[1],p[2],'X')
   text(sol[1],sol[2],'X\'')
-  return(newP)#devolvemos el nuevo punto
+  return(sol)#devolvemos el nuevo punto
 }
 
 
