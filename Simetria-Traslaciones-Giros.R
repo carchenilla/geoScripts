@@ -80,14 +80,3 @@ getSimetryAndPlot <-function(p,r){
   text(sol[1],sol[2],'X\'')
   return(sol)#devolvemos el nuevo punto
 }
-
-
-#FALTA EL PLOT
-getHomotecy <- function(p,o,r){
-  mat1 <- rbind(c(o[1]*(1-r)),
-                c(o[2]*(1-r)))
-  mat2 <- rbind(c(o[1]),
-                c(o[2]))
-  mat2 <- r*mat2
-  mat1+mat2
-}
