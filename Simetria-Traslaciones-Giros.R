@@ -1,14 +1,14 @@
 #PRACTICA 4.2 GEOMETRIA COMPUTACIONAL
 #Ejercicios de clase del plano afin
 
-toNewRefSys <- function(p,o,v1,v2){
-  A <- rbind(c(v1[1],v2[1]),     #Cambio de referencia usando sistema con matrices
+toNewRefSys <- function(p,o,v1,v2){     #Cambio de referencia usando sistema con matrices
+  A <- rbind(c(v1[1],v2[1]),     
              c(v1[2],v2[2]))
   B<- c(p[1]-o[1],p[2]-o[2])
   solve(A,B)
 }
 
-plotPointAndChangeRefSys <- function(p,o,v1,v2){
+plotPointAndChangeRefSys <- function(p,o,v1,v2){ #Cambio de referencia y plot del punto 
   minX = min(c(v1[1],v2[1],p[1],o[1]))   #Valores min y max para que el plot encaje bien
   maxX = max(c(v1[1],v2[1],p[1],o[1]))
   minY = min(c(v1[2],v2[2],p[2],o[2]))
@@ -16,10 +16,10 @@ plotPointAndChangeRefSys <- function(p,o,v1,v2){
   plot(c(minX-1,maxX+1),c(minY-1,maxY+1),main="sistema de referencia")
   text(o[1],o[2],'o')
   text(p[1],p[2],'X')
-  arrows(o[1],o[2],o[1]+v1[1],o[2]+v1[2],col="blue",lwd=3)
-  arrows(o[1],o[2],o[1]+v2[1],o[2]+v2[2],col="blue",lwd=3)
-  arrows(0,0,0,1,col="orange",lwd=3)
-  arrows(0,0,1,0,col="orange",lwd=3)
+  arrows(o[1],o[2],o[1]+v1[1],o[2]+v1[2],col="orange",lwd=3)
+  arrows(o[1],o[2],o[1]+v2[1],o[2]+v2[2],col="dark green",lwd=3)
+  arrows(0,0,0,1,col="green",lwd=3)
+  arrows(0,0,1,0,col="red",lwd=3)
   return(toNewRefSys(p,o,v1,v2))#Devolvemos el nuevo punto
 }
 
@@ -40,7 +40,7 @@ getTraslationAndPlot <- function(p,q){
 }
 
 
-getRotationAndPlot <- function(p,q,a){
+getRotationAndPlot <- function(p,q,a){     #Angulo debe estar en radianes
   M <- rbind(c(cos(a)*(p[1]-q[1])-sin(a)*(p[2]-q[2])+q[1]),   #Matriz para hallar el nuevo punto
         c(sin(a)*(p[1]-q[1])+cos(a)*(p[2]-q[2])+q[2]))
   newP = c(M[1][1],M[2][1])
