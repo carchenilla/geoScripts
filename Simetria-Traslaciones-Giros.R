@@ -80,3 +80,31 @@ getSimetryAndPlot <-function(p,r){
   text(sol[1],sol[2],'X\'')
   return(sol)#devolvemos el nuevo punto
 }
+
+ecuacionesRectaAndPlot <- function(P,v){
+  if(length(P)!=2&&length(v)!=2){
+    stop("Parameters should be 2D point and vector")
+  }else{
+    print("Ecuación paramétrica:")
+    print(paste("x=",P[1]," + λ*",v[1],sep=""))
+    print(paste("y=",P[2]," + λ*",v[2],sep=""))
+    
+    print("")
+    
+    print("Ecuación continua:")
+    print(paste("(x-",P[1],")/",v[1],"=(y-",P[2],")/",v[2],sep=""))
+    
+    print("")
+    
+    print("Ecuación explícita:")
+    m=v[2]/v[1]
+    print(paste("y=",m,"x+",P[2]-m*P[1],sep=""))
+    
+    print("")
+    
+    print("Ecuación general:")
+    print(paste(v[2],"x+",-v[1],"y+",-v[2]*P[1]+v[1]*P[2],"=0",sep=""))
+    plot(c(0,5),c(v[1],5+v[2]),main="recta")   #Plot de la recta
+    polygon(c(0,5),c(v[1],5+v[2]),lty=1,lwd=2, border="orange")
+  }
+}
