@@ -11,18 +11,16 @@ M <- read.table("/home/carchenilla/geoScripts/humedales.txt", header=T, sep=" ")
 
 
 #Ahora le hacemos el test de Bartlett para ver la esfericidad de los datos
-#Ahora le hacemos el princomp. Agradecemos a la profe que nos cuente que a esta funcion solo hay que
-#pasarle la parte numerica de la matriz :D
+#Mis dieses a la profe por pasarnos una matriz con columnas de texto que tenemos que quitar :D
 
 bartlett.test(M[2:10])
-
 
 #Nos sale un p valor < 0.05, por lo que podemos rechazar la hipotesis nula de que la varianza es la misma
 #para todos los grupos. No podemos asumir homogeneidad entre varianzas
 
 
-#Ahora le hacemos el princomp. Agradecemos a la profe que nos cuente que a esta funcion solo hay que
-#pasarle la parte numerica de la matriz :D
+#Ahora le hacemos el princomp. 
+#Mis dieses a la profe por pasarnos una matriz con columnas de texto que tenemos que quitar :D
 
 modelo1 <- princomp(M[2:10],cor=TRUE)
 summary(modelo1)
