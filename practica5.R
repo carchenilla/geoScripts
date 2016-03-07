@@ -6,14 +6,15 @@
 #A continuación cargamos los datos del txt
 #(que por cierto, tiene errores en las lineas 7,8 y 10 -> facepalm infinito)
 
-M <- read.table("C:/Users/carchenilla/Documents/geoScripts/humedales.txt",header=T,sep=" ")
+#Windows ////    M <- read.table("C:/Users/carchenilla/Documents/geoScripts/humedales.txt",header=T,sep=" ")
+M <- read.table("/home/carchenilla/geoScripts/humedales.txt", header=T, sep=" ")
 
 
 #Ahora le hacemos el test de Bartlett para ver la esfericidad de los datos
 #Ahora le hacemos el princomp. Agradecemos a la profe que nos cuente que a esta funcion solo hay que
 #pasarle la parte numerica de la matriz :D
 
-bartlett.test(M)
+bartlett.test(M[2:10])
 
 
 #Nos sale un p valor < 0.05, por lo que podemos rechazar la hipotesis nula de que la varianza es la misma
