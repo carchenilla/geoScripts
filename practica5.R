@@ -1,10 +1,10 @@
 ######   PRACTICA 5 - ANALISIS FACTORIAL 
 
 
-#Lo primero de todo es instalar la librería "psych". A través de la interfaza de RStudio es muy sencillo (xddd)
+#Lo primero de todo es instalar la librería "psych"
 
 #A continuación cargamos los datos del txt
-#(que por cierto, tiene errores en las lineas 7,8 y 10 -> facepalm infinito)
+#(tiene errores en las lineas 7,8 y 10)
 
 #Mac  //// 
 M <- read.table("/Users/carche/geoScripts/humedales.txt",header=T,sep=" ")
@@ -13,7 +13,6 @@ M <- read.table("/Users/carche/geoScripts/humedales.txt",header=T,sep=" ")
 
 
 #Ahora le hacemos el test de Bartlett para ver la esfericidad de los datos
-#Mis dieses a la profe por pasarnos una matriz con columnas de texto que tenemos que quitar :D
 
 bartlett.test(M[2:10])
 
@@ -22,7 +21,6 @@ bartlett.test(M[2:10])
 
 
 #Ahora le hacemos el princomp. 
-#Mis dieses a la profe por pasarnos una matriz con columnas de texto que tenemos que quitar :D
 
 modelo1 <- princomp(M[2:10],cor=TRUE)
 summary(modelo1)
