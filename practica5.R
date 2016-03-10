@@ -11,6 +11,10 @@ M <- read.table("/Users/carche/geoScripts/humedales.txt",header=T,sep=" ")
 #Windows ////    M <- read.table("C:/Users/carchenilla/Documents/geoScripts/humedales.txt",header=T,sep=" ")
 #Linux   //// M <- read.table("/home/carchenilla/geoScripts/humedales.txt", header=T, sep=" ")
 
+library("psych", lib.loc="~/Library/R/3.0/library")
+library("mnormt", lib.loc="~/Library/R/3.0/library")
+library("GPArotation", lib.loc="~/Library/R/3.0/library")
+#Carga de las librerías 
 
 #Ahora le hacemos el test de Bartlett para ver la esfericidad de los datos
 
@@ -40,7 +44,7 @@ biplot(modelo1)
 #Ahora hay que instalar y "activar" la librería GPArotation
 #Conesto hacemos otros modelos con rotaciones y esas cosas, pero que salen más o menos parecidos, con 3 flechitas
 
-modelo2 <- principal(M[2:10], nfactors=3, rotate="varimax")
+modelo2 <- principal(M[2:10], nfactors=3, rotate="promax")
 modelo2
 summary(modelo2)
 loadings(modelo2)
@@ -50,7 +54,7 @@ biplot(modelo2)
 #Para el tercer modelo utilizamos factanal, que produce un análisis basado en máxima 
 #verosimilitud 
 
-Modelo3<-factanal(M[2:10], 3,rotation="varimax")
+Modelo3<-factanal(M[2:10], 3,rotation="promax")
 print(Modelo3, digits=2, cutoff=.3, sort=TRUE)
 
 load <- Modelo3$loadings[,1:3] 
