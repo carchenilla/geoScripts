@@ -6,11 +6,22 @@ primAlgorithm <- function(M){
   firstEdge = getFirstEdge(M)
   visitedEdges = c(firstEdge)
   visitedNodes = c(slot(firstEdge,"begin"), slot(firstEdge,"end"))
+  while (length(visitedNodes)!=ncol(M)){
+    newEdge = checkDestinations(M,visitedNodes)
+    visitedNodes = c(visitedNodes, slot(newEdge,"end"))
+    visitedEdges = c(visitedEdges, newEdge)
+  }
   
-  #bucle
-  newEdge = checkDestinations(M,visitedNodes)
+  #reconstruir grafo con las aristas que hay en la lista de aristas visitadas
   
-  
+  newMatrix = matrix(0,nrow=nrow(M), ncol=ncol(M))
+  for (i in 1:length(visitedEdges)){
+    cost = slot(visitedEdges(i),"cost")
+    begin = slot(visitedEdges(i),"begin")
+    end = slot(visitedEdges(i),"end")
+    newMatrix[begin,end]=cost
+  }
+  return(newMatrix)
 }
 
 
@@ -34,7 +45,13 @@ checkDestinations <- function(M,visited){
     n = getMinEdge(M,visited(i),visited)
     candidates = c(candidates,n)
   }
-  #minimo de candidates
+  result = candidates(1)
+  for (i in 1:length(candidates)){
+    if(slot(candidates(i),"cost")<slot(result, "cost")){
+      result = candidates(i)
+    }
+  }
+  return(result)
 }
 
 
