@@ -13,7 +13,6 @@ primAlgorithm <- function(M){
   }
   
   #reconstruir grafo con las aristas que hay en la lista de aristas visitadas
-  print(visitedEdges)
   newMatrix = matrix(0,nrow=nrow(M), ncol=ncol(M))
   for (i in 1:length(visitedEdges)){
     cost = slot(visitedEdges[[i]],"cost")
