@@ -1,19 +1,26 @@
 ##### PRACTICA 5 - GRAFOS - ALGORITMO DE PRIM 
 
+#asumimos grafo NO dirigido
+#en caso de ser dirigido habría que hacer cambios puntuales al codigo
+
+
+#tipo de datos propio para guardar la información de las aristas
 edge <- setClass("edge",slots = c(cost="numeric",begin="numeric", end="numeric"))
 
+
+#algoritmo de prim
+#recibe: matriz de adyacencia con los costes de cada arista
+#devuelve: matriz de adyacencia del arbol soporte de minimo coste
 primAlgorithm <- function(M){
-  firstEdge = getFirstEdge(M)
-  visitedEdges = c(firstEdge)
-  visitedNodes = c(slot(firstEdge,"begin"), slot(firstEdge,"end"))
-  while (length(visitedNodes)<ncol(M)){
-    newEdge = checkDestinations(M,visitedNodes)
-    visitedNodes = c(visitedNodes, slot(newEdge,"end"))
-    visitedEdges = c(visitedEdges, newEdge)
+  firstEdge = getFirstEdge(M)   #elegimos la arista de menor peso
+  visitedEdges = c(firstEdge)   #marcamos esa arista
+  visitedNodes = c(slot(firstEdge,"begin"), slot(firstEdge,"end"))    #marcamos los nodos visitados
+  while (length(visitedNodes)<ncol(M)){     #repetir hasta visitar todos los nodos
+    newEdge = checkDestinations(M,visitedNodes)   #buscar nueva arista
+    visitedNodes = c(visitedNodes, slot(newEdge,"end"))   #marcar el nuevo nodo visitado
+    visitedEdges = c(visitedEdges, newEdge)     #marcar la arista visitada
   }
-  
-  #reconstruir grafo con las aristas que hay en la lista de aristas visitadas
-  newMatrix = matrix(0,nrow=nrow(M), ncol=ncol(M))
+  newMatrix = matrix(0,nrow=nrow(M), ncol=ncol(M))      #reconstruir grafo con las aristas que hay en la lista de aristas visitadas
   for (i in 1:length(visitedEdges)){
     cost = slot(visitedEdges[[i]],"cost")
     begin = slot(visitedEdges[[i]],"begin")
@@ -25,6 +32,9 @@ primAlgorithm <- function(M){
 }
 
 
+#calcular arista de menor coste
+#recibe: matriz de adyacencia con los costes de cada arista
+#devuelve: arista de menor coste
 getFirstEdge <- function(M){
   result = max(M)
   coord = c()
@@ -39,15 +49,19 @@ getFirstEdge <- function(M){
   return(edge(cost=result, begin=coord[1], end=coord[2]))
 }
 
+
+#calcular menor arista accesible a partir de los nodos ya visitados
+#recibe: matriz de adyacencia con los costes de cada arista y la lista de nodos visitados
+#devuelve: arista con menor coste accesible desde los nodos visitados
 checkDestinations <- function(M,visitedNodes){
-  candidates = c()
-  for (i in 1:length(visitedNodes)){
+  candidates = c()  #lista de candidatos
+  for (i in 1:length(visitedNodes)){    #para cada nodo visitado calculamos la menor arista accesible desde él y que no lleve a otro nodo ya visitado
     n = getMinEdge(M,visitedNodes[i],visitedNodes)
-    if (length(n)!=0){
-      candidates = c(candidates,n)
+    if (length(n)!=0){    #si desde ese nodo se encontró una arista accesible
+      candidates = c(candidates,n)    #la metemos en la lista de candidatos
     }
   }
-  result = candidates[[1]]
+  result = candidates[[1]]    #elegimos la menor arista de la lista de candidatos
   for (i in 1:length(candidates)){
     if((slot(candidates[[i]],"cost"))<(slot(result, "cost"))){
       result = candidates[[i]]
@@ -57,18 +71,22 @@ checkDestinations <- function(M,visitedNodes){
 }
 
 
+#calcular menor arista accesible desde un nodo dado y que no lleve a un nodo ya visitado
+#recibe: matriz de adyacencia con los costes de cada arista, el nodo desde el que buscar y la lista de nodos visitados
+#devuelve: si encuentra la arista accesible de menor coste y que no lleve a un nodo ya visitado, la devuelve
+#          en caso contrario devuelve null
 getMinEdge <- function(M,row,visitedNodes){
   result = max(M[row,])
   node=NULL
   for (i in 1:ncol(M)){
-    if ((M[row,i]>0) && (M[row,i]<=result)){
-      if (!(i %in% visitedNodes)){
-        result = M[row,i]
+    if ((M[row,i]>0) && (M[row,i]<=result)){  #si la arista es de menor coste que la del resultado provisional
+      if (!(i %in% visitedNodes)){  #y si no lleva a un nodo ya visitado
+        result = M[row,i]   #se sobreescribe el resultado provisional
         node=i 
       }
     }
   }
-  if (length(node)==0){
+  if (length(node)==0){ #si no se modificó node (porque no se encontró arista desde este nodo) se devuelve null
     return(NULL)
   }
   return(edge(cost=result, begin=row, end=node))
