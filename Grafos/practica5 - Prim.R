@@ -3,6 +3,9 @@
 #asumimos grafo NO dirigido
 #en caso de ser dirigido habría que hacer cambios puntuales al codigo
 
+#necesaria la librería "igraph" para poder plotear el grafo y su arbol soporte
+#necesaria la librería "Matrix" para poder sacar el triangulo superior de una matriz (está incluida en el paquete del sistema)
+
 
 #tipo de datos propio para guardar la información de las aristas
 edge <- setClass("edge",slots = c(cost="numeric",begin="numeric", end="numeric"))
@@ -12,6 +15,7 @@ edge <- setClass("edge",slots = c(cost="numeric",begin="numeric", end="numeric")
 #recibe: matriz de adyacencia con los costes de cada arista
 #devuelve: matriz de adyacencia del arbol soporte de minimo coste
 primAlgorithm <- function(M){
+  plotGraph(M,1)
   firstEdge = getFirstEdge(M)   #elegimos la arista de menor peso
   visitedEdges = c(firstEdge)   #marcamos esa arista
   visitedNodes = c(slot(firstEdge,"begin"), slot(firstEdge,"end"))    #marcamos los nodos visitados
@@ -28,6 +32,7 @@ primAlgorithm <- function(M){
     newMatrix[begin,end]=cost
     newMatrix[end,begin]=cost
   }
+  plotGraph(newMatrix,2)
   return(newMatrix)
 }
 
@@ -90,6 +95,21 @@ getMinEdge <- function(M,row,visitedNodes){
     return(NULL)
   }
   return(edge(cost=result, begin=row, end=node))
+}
+
+
+#plotear el grafo 
+#recibe: matriz de adyacencia del grafo
+#devuelve: nada. Solo hace el plot del grafo que represente M
+plotGraph <- function(M, m){
+  L = matrix(triu(M),nrow=nrow(M),ncol=ncol(M))
+  g1 <- graph.adjacency(L,mode="undirected", weighted=TRUE, diag=FALSE)
+  if (m==1){
+    plot(g1, main="grafo original")
+  }
+  else{
+    plot(g1, main="arbol soporte")
+  }
 }
 
 
