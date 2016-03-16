@@ -1,9 +1,8 @@
 ##### PRACTICA 5 - GRAFOS - ALGORITMO DE PRIM 
 
 #asumimos grafo NO dirigido
-#en caso de ser dirigido habría que hacer cambios puntuales al codigo
 
-#necesaria la librería "igraph" para poder plotear el grafo y su arbol soporte
+#necesaria la librería "igraph" para poder dibujar el grafo y su arbol soporte
 #necesaria la librería "Matrix" para poder sacar el triangulo superior de una matriz (está incluida en el paquete del sistema)
 
 
@@ -84,7 +83,7 @@ getMinEdge <- function(M,row,visitedNodes){
   result = max(M[row,])
   node=NULL
   for (i in 1:ncol(M)){
-    if ((M[row,i]>0) && (M[row,i]<=result)){  #si la arista es de menor coste que la del resultado provisional
+    if ((M[row,i]>0) && (M[row,i]<=result)){  #si la arista es de menor o igual coste que la del resultado provisional
       if (!(i %in% visitedNodes)){  #y si no lleva a un nodo ya visitado
         result = M[row,i]   #se sobreescribe el resultado provisional
         node=i 
@@ -98,7 +97,7 @@ getMinEdge <- function(M,row,visitedNodes){
 }
 
 
-#plotear el grafo 
+#dibujar el grafo 
 #recibe: matriz de adyacencia del grafo
 #devuelve: nada. Solo hace el plot del grafo que represente M
 plotGraph <- function(M, m){
