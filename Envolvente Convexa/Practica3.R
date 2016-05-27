@@ -15,7 +15,7 @@ getVertex <- function(edges){       #Recibe un numerics donde cada grupo de cuat
     verts <- rbind(verts,x) #Se van metiendo en una matriz por filas
     verts <- rbind(verts,y)
   }
-  newM = matrix(unique(verts),ncol = 2)    #matriz eliminando las filas repetidas, es decir, los vertices
+  newM = matrix(unique(verts),ncol = 2)    #matriz eliminando las filas repetidas, es decir, los vertices repetidos
   result <- c() #transformar matriz de vertices en numerics
   for (i in 1:nrow(newM)){
     result = c(result,c(newM[i,1],newM[i,2])) #para cada fila, concatenar a la lista final
