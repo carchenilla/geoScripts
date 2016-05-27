@@ -7,12 +7,13 @@ calcArea<-function(v,w){
     b = a+v
     c = b+w
     d = a+w
+    plotFig(c(a[1],b[1],c[1],d[1]),c(a[2],b[2],c[2],d[2]))
     base <- sqrt(c[1]^2+c[2]^2)
     points <- list(b,d)
+    M <- rbind(c(c[2],-c[1]), 
+               c(c[1],c[2]))
     for (i in 1:length(points)){  
       aux = points[[i]]
-      M <- rbind(c(c[2],-c[1]), 
-                  c(c[1],c[2]))
       N <- c(0,
            aux[1]*c[1]+aux[2]*c[2])
       p1 <- solve(M,N)
